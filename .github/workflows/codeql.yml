@@ -57,19 +57,17 @@ jobs:
   dependencies:
     name: Dependencies
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # to enable Dependabot
 
     steps:
     - uses: actions/checkout@v3
 
-    # Enabled Dependency Graph & Security Alerts for this repo
-    - name: "Enabled Dependency Graph & Security Alerts"
+    # Checks to see if Dependency Graph & Security Alerts are enabled
+    # for this repo. If not, please enable them
+    - name: "Check Dependency Graph & Security Alerts"
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
         gh api \
-          --method PUT \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository }}/vulnerability-alerts
