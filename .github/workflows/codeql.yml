@@ -65,18 +65,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Checks to see if Dependency Graph & Security Alerts are enabled
-    # for this repo. If not, please enable them
-    - name: "Check Dependency Graph & Security Alerts"
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh api \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /repos/${{ github.repository }}/vulnerability-alerts
-
     # Submit Maven Dependency Tree to GitHub
+    # Check to see if Dependency Graph & Security Alerts are enabled
+    # for this repo. If this step failed, please enable them
     - name: Maven Dependency Tree Dependency Submission
       if: matrix.language == 'java'
       uses: advanced-security/maven-dependency-submission-action@v3.0.2
