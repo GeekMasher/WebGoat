@@ -57,6 +57,9 @@ jobs:
   dependencies:
     name: Dependencies
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to enable Dependabot
+
     steps:
     - uses: actions/checkout@v3
 
