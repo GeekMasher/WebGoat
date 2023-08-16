@@ -30,26 +30,22 @@ jobs:
     - uses: actions/checkout@v2
 
     # WebGoat requires Java/JDK 17
-    - name: Set up JDK 1.17
+    - name: Set up JDK 17
       if: matrix.language == 'java'
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3
       with:
-        java-version: 1.17
+        distribution: 'temurin'
+        java-version: 17
+        architecture: x64
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
         # [optional] enabled extended queries
-        queries: +security-extended     # or `+security-and-quality` can be used
+        # queries: +security-extended     # or `+security-and-quality` can be used
         # [optional] Field Config - standard packs, extensions, and extra packs
-        # config-file: advanced-security/codeql-queries/config/codeql.yml@main
-
-    # Use mvn command
-    - name: Build Code
-      if: matrix.language == 'java'
-      run: |
-        mvn clean install --file pom.xml
+        config-file: advanced-security/codeql-queries/config/codeql.yml@main
 
     # Run the Analysis
     - name: Perform CodeQL Analysis
