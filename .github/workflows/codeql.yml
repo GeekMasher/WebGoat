@@ -27,7 +27,7 @@ jobs:
         language: [ 'java', 'javascript' ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     # WebGoat requires Java/JDK 17
     - name: Set up JDK 17
@@ -54,6 +54,18 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
 
+  dependencies:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    # Enabled Dependency Graph & Security Alerts for this repo
+    - run: |
+        gh api \
+          --method PUT \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository }}/vulnerability-alerts
     # Submit Maven Dependency Tree to GitHub
     - name: Maven Dependency Tree Dependency Submission
       if: matrix.language == 'java'
