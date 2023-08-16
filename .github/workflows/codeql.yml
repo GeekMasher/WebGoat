@@ -47,8 +47,12 @@ jobs:
         # [optional] Field Config - standard packs, extensions, and extra packs
         config-file: advanced-security/codeql-queries/config/codeql.yml@main
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    # - name: Autobuild
+    #   uses: github/codeql-action/autobuild@v2
+    - name: Build Code
+      if: matrix.language == 'java'
+      run: |
+        mvn clean install -DskipTests --file pom.xml
 
     # Run the Analysis
     - name: Perform CodeQL Analysis
